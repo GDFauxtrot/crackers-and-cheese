@@ -28,14 +28,13 @@ public class PlayerController : NetworkBehaviour {
         {
             rb.AddForce(new Vector3(0, 350, 0));
         }
-
+        
 
     }
 
     public override void OnStartLocalPlayer()
     {
         GetComponent<MeshRenderer>().material.color = Color.blue;
-
     }
 
     void OnCollisionEnter(Collision c)
