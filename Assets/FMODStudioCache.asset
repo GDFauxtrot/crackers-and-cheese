@@ -13,12 +13,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: 114806683347210316}
-  - {fileID: 114643090523334880}
+  - {fileID: 114811203317388516}
   EditorEvents:
   - {fileID: 114393669087802940}
-  MasterBankRef: {fileID: 114643090523334880}
+  MasterBankRef: {fileID: 114811203317388516}
   StringsBankRef: {fileID: 114806683347210316}
-  stringsBankWriteTime: 636597432211991131
+  stringsBankWriteTime: 636596666594388930
   cacheVersion: 2
 --- !u!114 &114132362720375778
 MonoBehaviour:
@@ -53,7 +53,7 @@ MonoBehaviour:
   Path: event:/TrozeiTitleFix
   guid: 599ecb802eff96438c4c31058023666f
   Banks:
-  - {fileID: 114643090523334880}
+  - {fileID: 114811203317388516}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
   FileSizes:
   - Name: Desktop
     Value: 231200
-  Exists: 1
+  Exists: 0
 --- !u!114 &114806683347210316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,9 +92,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: Assets\Audio\FMOD\musicloops-cnc\Build\Desktop\Master Bank.strings.bank
-  lastModified: 636597432211991131
+  lastModified: 636596666594388930
   LoadResult: 0
   FileSizes:
   - Name: Desktop
     Value: 724
+  Exists: 1
+--- !u!114 &114811203317388516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: C:\Unity\crackers-and-cheese\Assets\Audio\FMOD\musicloops-cnc\Build\Desktop\Master
+    Bank.bank
+  lastModified: 636596666594338795
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 231200
   Exists: 1
