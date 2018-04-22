@@ -40,6 +40,8 @@ public class PlayerController : NetworkBehaviour {
     {
         //Can set to whatever we want but allows us to do certain things to the local version of this object
         GetComponent<MeshRenderer>().material.color = Color.blue;
+
+        GameObject.Find("NetworkUIPanel").GetComponent<NetworkUIManager>().SetPanelIsHidden(true);
     }
 
     void OnCollisionEnter(Collision c)

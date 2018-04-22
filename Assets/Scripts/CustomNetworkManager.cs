@@ -6,12 +6,14 @@ using UnityEngine.Networking;
 // To override base NetworkManager functions and do our own thing, we must use this
 public class CustomNetworkManager : NetworkManager {
 
+    public NetworkUIManager startMenuUIManager;
     public NetworkStartPosition p1Start, p2Start;
     GameObject player1, player2;
 
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId) {
         //base.OnServerAddPlayer(conn, playerControllerId);
-        
+        startMenuUIManager.SetPanelIsHidden(true);
+
         if (player1 == null) {
             player1 = Instantiate(playerPrefab, p1Start.transform.position, p1Start.transform.rotation);
             NetworkServer.AddPlayerForConnection(conn, player1, playerControllerId); 
@@ -25,5 +27,23 @@ public class CustomNetworkManager : NetworkManager {
         if (player1 != null && player2 != null) {
             Debug.Log("Both players present! Time to begin!");
         }
+    }
+
+    // OnServerDisconnect = disconnect run on server side (CLIENT disconnected)
+    public override void OnServerDisconnect(NetworkConnection conn) {
+        //base.OnServerDisconnect(conn);
+        startMenuUIManager.SetPanelIsHidden(false);
+        startMenuUIManager.ShowErrorOnMenu("ERROR: Client disconnected!", 5f);
+        StopServer();
+        //StopHost();
+    }
+    
+    // OnClientDisconnect = disconect run on client side (SERVER drops out)
+    public override void OnClientDisconnect(NetworkConnection conn) {
+        //base.OnClientDisconnect(conn);
+        startMenuUIManager.SetPanelIsHidden(false);
+        startMenuUIManager.ShowErrorOnMenu("ERROR: Server disconnected!", 5f);
+        StopClient();
+        //StopHost();
     }
 }

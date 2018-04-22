@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using System;
+using System.Threading.Tasks;
 
 public class NetworkUIManager : MonoBehaviour {
 
     public Button hostButton, joinButton;
     public InputField ipInputField;
+    public Button clientCancel;
+    public GameObject errorPanel;
+    public Text clientConnecting;
 
     public CustomNetworkManager networkManager;
 
@@ -40,9 +45,6 @@ public class NetworkUIManager : MonoBehaviour {
             networkManager.networkAddress = ipInputField.text;
         }
         networkManager.StartHost();
-        //networkManager.StartHost(networkManager.connectionConfig, networkManager.maxConnections);
-
-        SetPanelIsHidden(true);
     }
 
     public void JoinButtonPressed() {
@@ -51,18 +53,44 @@ public class NetworkUIManager : MonoBehaviour {
         } else {
             networkManager.networkAddress = ipInputField.text;
         }
-        Debug.Log(networkManager.connectionConfig);
         networkManager.StartClient();
-        //networkManager.StartClient(networkManager.matchInfo, networkManager.connectionConfig, networkManager.networkPort);
 
-        SetPanelIsHidden(true);
+        SetShowClientConnecting(true);
     }
 
-    void SetPanelIsHidden(bool hide) {
+    public void SetPanelIsHidden(bool hide) {
         // Rather than nuke the manager with .SetActive(false), just hide the components so the manager doesn't deactivate
         GetComponent<Image>().enabled = !hide;
         foreach (Transform go in transform) {
             go.gameObject.SetActive(!hide);
+        }
+        clientCancel.gameObject.SetActive(false);
+        clientConnecting.gameObject.SetActive(false);
+    }
+
+    public void SetShowClientConnecting(bool show) {
+        clientCancel.gameObject.SetActive(show);
+        clientConnecting.gameObject.SetActive(show);
+        hostButton.gameObject.SetActive(!show);
+        joinButton.gameObject.SetActive(!show);
+        ipInputField.gameObject.SetActive(!show);
+    }
+
+    public void ClientConnectingCancelPressed() {
+        networkManager.StopClient();
+        
+        SetShowClientConnecting(false);
+    }
+
+    public async void ShowErrorOnMenu(string error, float time) {
+        if (GetComponent<Image>().enabled) {
+            errorPanel.transform.GetChild(0).GetComponent<Text>().text = error;
+            errorPanel.SetActive(true);
+
+            await Task.Delay(TimeSpan.FromSeconds(time));
+
+            errorPanel.SetActive(false);
+            errorPanel.transform.GetChild(0).GetComponent<Text>().text = "";
         }
     }
 }
