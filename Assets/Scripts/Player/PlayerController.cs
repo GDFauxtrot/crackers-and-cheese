@@ -5,7 +5,11 @@ using UnityEngine.Networking;
 
 public class PlayerController : NetworkBehaviour {
 
+    public GameObject grabPoint;
+
     bool grounded = false;
+    bool inLiquid;
+
     Rigidbody rb;
 
     public float runSpeed, jumpStrength;
@@ -22,7 +26,15 @@ public class PlayerController : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        rb.velocity = new Vector3(Input.GetAxis("Horizontal") * Time.deltaTime * runSpeed, rb.velocity.y, Input.GetAxis("Vertical") * Time.deltaTime * runSpeed);
+        float hSpeed = Input.GetAxis("Horizontal") * Time.deltaTime * runSpeed;
+        float vSpeed = Input.GetAxis("Vertical") * Time.deltaTime * runSpeed;
+
+        if (inLiquid) {
+            hSpeed /= 2;
+            vSpeed /= 2;
+        }
+
+        rb.velocity = new Vector3(hSpeed, rb.velocity.y, vSpeed);
 
         if(grounded && Input.GetButtonDown("Jump")) {
             rb.AddForce(new Vector3(0, jumpStrength, 0));
@@ -39,6 +51,7 @@ public class PlayerController : NetworkBehaviour {
 
     void OnCollisionEnter(Collision c)
     {
+        Debug.Log(c.gameObject.name);
         if (c.gameObject.tag == "Ground")
             grounded = true;
         else if (c.gameObject.tag == "Platform") {
@@ -49,11 +62,24 @@ public class PlayerController : NetworkBehaviour {
 
     void OnCollisionExit(Collision c)
     {
+        Debug.Log(c.gameObject.name);
         if (c.gameObject.tag == "Ground")
             grounded = false;
         else if (c.gameObject.tag == "Platform") {
             grounded = false;
             transform.parent = null;
+        }
+    }
+
+    void OnTriggerEnter(Collider c) {
+        if (c.gameObject.tag == "Liquid") {
+            inLiquid = true;
+        }
+    }
+
+    void OnTriggerExit(Collider c) {
+        if (c.gameObject.tag == "Liquid") {
+            inLiquid = false;
         }
     }
 }
