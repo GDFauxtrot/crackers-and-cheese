@@ -6,10 +6,11 @@ using UnityEngine.Networking;
 // To override base NetworkManager functions and do our own thing, we must use this
 public class CustomNetworkManager : NetworkManager {
 
+    public GameManager gameManager;
     public NetworkUIManager startMenuUIManager;
     public NetworkStartPosition p1Start, p2Start;
     GameObject player1, player2;
-
+    
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId) {
         //base.OnServerAddPlayer(conn, playerControllerId);
         startMenuUIManager.SetPanelIsHidden(true);
@@ -25,7 +26,7 @@ public class CustomNetworkManager : NetworkManager {
         }
         
         if (player1 != null && player2 != null) {
-            Debug.Log("Both players present! Time to begin!");
+            gameManager.BeginGame(player1, player2);
         }
     }
 

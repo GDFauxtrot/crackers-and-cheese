@@ -8,7 +8,7 @@ public class PlayerController : NetworkBehaviour {
     bool grounded = false;
     Rigidbody rb;
 
-    public float runSpeed, rotateSpeed, jumpStrength;
+    public float runSpeed, jumpStrength;
 
     void Start()
     {
@@ -22,18 +22,11 @@ public class PlayerController : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        var x = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;
-        var z = Input.GetAxis("Vertical") * Time.deltaTime * runSpeed;
+        rb.velocity = new Vector3(Input.GetAxis("Horizontal") * Time.deltaTime * runSpeed, rb.velocity.y, Input.GetAxis("Vertical") * Time.deltaTime * runSpeed);
 
-        transform.Rotate(0, x, 0);
-        transform.Translate(0, 0, z);
-
-        if(grounded && Input.GetKeyDown(KeyCode.Space))
-        {
+        if(grounded && Input.GetButton("Jump")) {
             rb.AddForce(new Vector3(0, jumpStrength, 0));
         }
-        
-
     }
 
     public override void OnStartLocalPlayer()
