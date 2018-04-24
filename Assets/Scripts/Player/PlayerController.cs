@@ -24,7 +24,7 @@ public class PlayerController : NetworkBehaviour {
 
         rb.velocity = new Vector3(Input.GetAxis("Horizontal") * Time.deltaTime * runSpeed, rb.velocity.y, Input.GetAxis("Vertical") * Time.deltaTime * runSpeed);
 
-        if(grounded && Input.GetButton("Jump")) {
+        if(grounded && Input.GetButtonDown("Jump")) {
             rb.AddForce(new Vector3(0, jumpStrength, 0));
         }
     }
@@ -41,11 +41,19 @@ public class PlayerController : NetworkBehaviour {
     {
         if (c.gameObject.tag == "Ground")
             grounded = true;
+        else if (c.gameObject.tag == "Platform") {
+            grounded = true;
+            transform.parent = c.transform;
+        }
     }
 
     void OnCollisionExit(Collision c)
     {
         if (c.gameObject.tag == "Ground")
             grounded = false;
+        else if (c.gameObject.tag == "Platform") {
+            grounded = false;
+            transform.parent = null;
+        }
     }
 }
