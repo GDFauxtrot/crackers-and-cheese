@@ -45,13 +45,12 @@ public class PlayerController : NetworkBehaviour {
     {
         //Can set to whatever we want but allows us to do certain things to the local version of this object
         GetComponent<MeshRenderer>().material.color = Color.blue;
-
-        GameObject.Find("NetworkUIPanel").GetComponent<NetworkUIManager>().SetPanelIsHidden(true);
+        //GameObject.Find("NetworkUIPanel").GetComponent<NetworkUIManager>().lanConnectingPanel.SetActive(false);
+        //GameObject.Find("NetworkUIPanel").GetComponent<NetworkUIManager>().netConnectingPanel.SetActive(false);
     }
 
     void OnCollisionEnter(Collision c)
     {
-        Debug.Log(c.gameObject.name);
         if (c.gameObject.tag == "Ground")
             grounded = true;
         else if (c.gameObject.tag == "Platform") {
@@ -62,7 +61,6 @@ public class PlayerController : NetworkBehaviour {
 
     void OnCollisionExit(Collision c)
     {
-        Debug.Log(c.gameObject.name);
         if (c.gameObject.tag == "Ground")
             grounded = false;
         else if (c.gameObject.tag == "Platform") {
