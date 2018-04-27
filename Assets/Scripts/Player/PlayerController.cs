@@ -12,7 +12,7 @@ public class PlayerController : NetworkBehaviour {
 
     Rigidbody rb;
 
-    public float runSpeed, jumpStrength;
+    public float runSpeed, jumpStrength, jumpLetGoVelocity;
 
     void Start()
     {
@@ -26,8 +26,17 @@ public class PlayerController : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        float hSpeed = Input.GetAxis("Horizontal") * Time.deltaTime * runSpeed;
-        float vSpeed = Input.GetAxis("Vertical") * Time.deltaTime * runSpeed;
+        if (grounded && Input.GetButtonDown("Jump")) {
+            rb.AddForce(new Vector3(0, jumpStrength, 0));
+        }
+        if (!grounded && Input.GetButtonUp("Jump") && rb.velocity.y > jumpLetGoVelocity) {
+            rb.velocity = new Vector3(rb.velocity.x, jumpLetGoVelocity, rb.velocity.z);
+        }
+    }
+
+    void FixedUpdate() {
+        float hSpeed = Input.GetAxis("Horizontal") * runSpeed;
+        float vSpeed = Input.GetAxis("Vertical") * runSpeed;
 
         if (inLiquid) {
             hSpeed /= 2;
@@ -35,38 +44,32 @@ public class PlayerController : NetworkBehaviour {
         }
 
         rb.velocity = new Vector3(hSpeed, rb.velocity.y, vSpeed);
-
-        if(grounded && Input.GetButtonDown("Jump")) {
-            rb.AddForce(new Vector3(0, jumpStrength, 0));
-        }
     }
 
     public override void OnStartLocalPlayer()
     {
         //Can set to whatever we want but allows us to do certain things to the local version of this object
         GetComponent<MeshRenderer>().material.color = Color.blue;
-        //GameObject.Find("NetworkUIPanel").GetComponent<NetworkUIManager>().lanConnectingPanel.SetActive(false);
-        //GameObject.Find("NetworkUIPanel").GetComponent<NetworkUIManager>().netConnectingPanel.SetActive(false);
     }
 
-    void OnCollisionEnter(Collision c)
-    {
-        if (c.gameObject.tag == "Ground")
+    bool TagIsGrounded(string tag) {
+        return tag == "Ground" || tag == "Button" || tag == "Platform";
+    }
+
+    void OnCollisionStay(Collision c) {
+        if (TagIsGrounded(c.gameObject.tag))
             grounded = true;
-        else if (c.gameObject.tag == "Platform") {
-            grounded = true;
+
+        if (c.gameObject.tag == "Platform")
             transform.parent = c.transform;
-        }
     }
 
-    void OnCollisionExit(Collision c)
-    {
-        if (c.gameObject.tag == "Ground")
+    void OnCollisionExit(Collision c) {
+        if (TagIsGrounded(c.gameObject.tag))
             grounded = false;
-        else if (c.gameObject.tag == "Platform") {
-            grounded = false;
+
+        if (c.gameObject.tag == "Platform")
             transform.parent = null;
-        }
     }
 
     void OnTriggerEnter(Collider c) {
