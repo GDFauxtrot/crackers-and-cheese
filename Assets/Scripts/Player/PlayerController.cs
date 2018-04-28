@@ -21,8 +21,6 @@ public class PlayerController : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        //This stops the update if it's not happening to the local system's player object
         if (!isLocalPlayer)
             return;
 
@@ -35,8 +33,18 @@ public class PlayerController : NetworkBehaviour {
     }
 
     void FixedUpdate() {
+        if (!isLocalPlayer)
+            return;
+
         float hSpeed = Input.GetAxis("Horizontal") * runSpeed;
         float vSpeed = Input.GetAxis("Vertical") * runSpeed;
+
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) {
+            float desiredYRot = 0;
+            Vector2 v = new Vector2(-Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            desiredYRot = Mathf.Atan2(v.y, v.x)*Mathf.Rad2Deg - 90;
+            transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, desiredYRot, transform.rotation.eulerAngles.z));
+        }
 
         if (inLiquid) {
             hSpeed /= 2;
@@ -46,8 +54,7 @@ public class PlayerController : NetworkBehaviour {
         rb.velocity = new Vector3(hSpeed, rb.velocity.y, vSpeed);
     }
 
-    public override void OnStartLocalPlayer()
-    {
+    public override void OnStartLocalPlayer() {
         //Can set to whatever we want but allows us to do certain things to the local version of this object
         GetComponent<MeshRenderer>().material.color = Color.blue;
     }

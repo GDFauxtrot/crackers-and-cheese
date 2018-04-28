@@ -82,11 +82,12 @@ public class NetworkUIManager : MonoBehaviour {
         } else {
             networkManager.networkAddress = mainMenuIPInputField.text;
         }
-        networkManager.StartClient();
+        NetworkClient client = networkManager.StartClient();
 
         mainMenuPanel.SetActive(false);
         lanToNetButton.gameObject.SetActive(false);
         lanConnectingPanel.SetActive(true);
+        StartCoroutine(HideLanConnectingPanel(client));
     }
 
     public void LanCancelPressed() {
@@ -122,6 +123,14 @@ public class NetworkUIManager : MonoBehaviour {
         lanToNetButton.gameObject.SetActive(true);
         mainMenuPanel.SetActive(true);
         netMatchListErrorText.gameObject.SetActive(false);
+    }
+
+    IEnumerator HideLanConnectingPanel(NetworkClient client) {
+        // There's no callback for a successful LAN client connection that I found, so this'll have to do
+        yield return new WaitUntil(delegate {
+            return client.isConnected;
+        });
+        lanConnectingPanel.SetActive(false);
     }
 
     //////////////////////////////

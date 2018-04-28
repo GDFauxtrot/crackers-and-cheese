@@ -10,6 +10,7 @@ public class CustomNetworkManager : NetworkManager {
     public GameManager gameManager;
     public NetworkUIManager networkUIManager;
     public NetworkStartPosition p1Start, p2Start;
+    public GameObject p1Prefab, p2Prefab;
     GameObject player1, player2;
     
     void Start() {

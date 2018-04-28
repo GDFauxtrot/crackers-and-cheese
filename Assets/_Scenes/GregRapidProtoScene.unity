@@ -34058,6 +34058,8 @@ MonoBehaviour:
   networkUIManager: {fileID: 854844754}
   p1Start: {fileID: 1043759051}
   p2Start: {fileID: 1733047929}
+  p1Prefab: {fileID: 0}
+  p2Prefab: {fileID: 0}
 --- !u!4 &1519368095
 Transform:
   m_ObjectHideFlags: 0
@@ -46566,7 +46568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2380a435ae98eb4896dfe66af114aa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volume: 0
+  volume: 0.25
 --- !u!1 &2056458390
 GameObject:
   m_ObjectHideFlags: 0

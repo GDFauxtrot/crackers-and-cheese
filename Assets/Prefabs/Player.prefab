@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 33460530197694324}
   - component: {fileID: 136896156730265344}
   - component: {fileID: 23386480628564666}
-  - component: {fileID: 114072223945981580}
-  - component: {fileID: 114644369217602904}
-  - component: {fileID: 114559452879764920}
   - component: {fileID: 54578395106479192}
+  - component: {fileID: 114072223945981580}
+  - component: {fileID: 114559452879764920}
+  - component: {fileID: 114644369217602904}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
