@@ -20,10 +20,10 @@ TagManager:
   - 
   - SkyboxOnly
   - Player
-  - 
-  - 
-  - 
-  - 
+  - GrabbedObject
+  - PlayerGrabZone
+  - ButtonPressCollider
+  - SpriteOnTop
   - 
   - 
   - 
