@@ -84,7 +84,6 @@ public class GameManager : NetworkBehaviour {
 
         foreach (MovingPlatform platform in FindObjectsOfType<MovingPlatform>()) {
             movingPlatformTimers.Add(new PlatformTime(platform.gameObject, 0));
-            Debug.Log("found");
         }
     }
 

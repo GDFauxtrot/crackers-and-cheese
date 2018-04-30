@@ -17,6 +17,7 @@ public class NetworkUIManager : MonoBehaviour {
     public GameObject netMenuPanel;
     public GameObject netConnectingPanel;
     public GameObject errorPanel;
+    public GameObject creditsPanel;
     public Button lanToNetButton, netToLanButton;
     public InputField mainMenuIPInputField;
     public GameObject netScrollViewContent;
@@ -60,6 +61,22 @@ public class NetworkUIManager : MonoBehaviour {
         }
     }
 
+    /////////////////////
+    // Credits Buttons //
+    /////////////////////
+
+    public void CreditsButtonPressed() {
+        mainMenuPanel.SetActive(false);
+        lanToNetButton.gameObject.SetActive(false);
+        creditsPanel.SetActive(true);
+    }
+
+    public void CreditsBackButtonPressed() {
+        mainMenuPanel.SetActive(true);
+        lanToNetButton.gameObject.SetActive(true);
+        creditsPanel.SetActive(false);
+    }
+    
     ////////////////////////
     // LAN (Local) Events //
     ////////////////////////
