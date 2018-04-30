@@ -25,13 +25,19 @@ public class ActivationCombinator : MonoBehaviour {
         Gizmos.DrawSphere(transform.position, 0.25f);
         Gizmos.color = Color.yellow;
         foreach (GameObject a in activators) {
+            if (a == null)
+                continue;
             Gizmos.DrawLine(transform.position, a.transform.position);
         }
         Gizmos.color = Color.red;
         foreach (GameObject on in onListeners) {
+            if (on == null)
+                continue;
             Gizmos.DrawLine(transform.position, on.transform.position);
         }
         foreach (GameObject off in offListeners) {
+            if (off == null)
+                continue;
             if (onListeners.Contains(off))
                 Gizmos.color = new Color(1, 0, 1);
             else
