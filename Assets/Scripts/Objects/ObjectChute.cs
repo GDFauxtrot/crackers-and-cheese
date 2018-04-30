@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ObjectChute : MonoBehaviour {
 
+    public List<GameObject> randomObjectsToSpawn;
+
     public GameObject spawnPoint;
 
     public void SpawnObject(GameObject objectPrefab, bool applySomeFunRotation = false) {
@@ -15,5 +17,9 @@ public class ObjectChute : MonoBehaviour {
                 obj.GetComponent<Rigidbody>().AddTorque(new Vector3(Random.Range(-100,100),Random.Range(-100,100),Random.Range(-100,100)));
             }
         }
+    }
+
+    public void SpawnObject(bool applySomeFunRotation = false) {
+        SpawnObject(randomObjectsToSpawn[Random.Range(0,randomObjectsToSpawn.Count-1)], applySomeFunRotation);
     }
 }

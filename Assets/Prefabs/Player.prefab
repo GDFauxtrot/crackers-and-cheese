@@ -403,6 +403,7 @@ MonoBehaviour:
   grabThrowStrength: 250
   grabThrowPlayerVelocityMultiplier: 5
   obeyCameraRange: 1
+  respawnY: -128
 --- !u!119 &119307523160220922
 Projector:
   m_ObjectHideFlags: 1

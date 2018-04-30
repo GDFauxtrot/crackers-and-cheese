@@ -20,10 +20,15 @@ public class PlayerController : NetworkBehaviour {
 
     public bool obeyCameraRange;
 
+    public float respawnY;
+
+    GameManager gameManager;
+
     void Start()
     {
         grabbablesInRadius = new List<GrabbableObject>();
         rb = GetComponent<Rigidbody>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 	
 	// Update is called once per frame
@@ -71,6 +76,29 @@ public class PlayerController : NetworkBehaviour {
                 Mathf.Clamp(transform.position.z,
                 Camera.main.transform.position.z + Camera.main.GetComponent<CameraFollowPlayers>().minZ-1,
                 Camera.main.transform.position.z + Camera.main.GetComponent<CameraFollowPlayers>().maxZ+1));
+        }
+
+        // If player falls out of game world
+        if (transform.position.y < respawnY) {
+            int playerNum = gameManager.GetPlayerNumber(gameObject);
+            
+            float playerX = 0;
+            if (playerNum == 1) {
+                playerX = -5;
+            } else if (playerNum == 2) {
+                playerX = 5;
+            }
+
+            RaycastHit hit;
+            Physics.Raycast(
+                    new Vector3(Camera.main.transform.position.x + playerX, Camera.main.transform.position.y + 10,
+                    Camera.main.transform.position.z + (Camera.main.GetComponent<CameraFollowPlayers>().minZ + Camera.main.GetComponent<CameraFollowPlayers>().maxZ)/2),
+                    Vector3.down, out hit);
+
+            if (hit.collider != null) {
+                transform.position = new Vector3(hit.point.x, hit.point.y + 5, hit.point.z);
+                rb.velocity = Vector3.zero;
+            }
         }
     }
 

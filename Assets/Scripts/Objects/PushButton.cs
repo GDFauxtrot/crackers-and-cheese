@@ -14,8 +14,26 @@ public class PushButton : MonoBehaviour {
 
     float currentReleaseTime;
 
+    public List<GameObject> onListeners, offListeners;
+
+    public ActivationCombinator combinator;
+
     void Start() {
 
+    }
+
+    void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        foreach (GameObject on in onListeners) {
+            Gizmos.DrawLine(transform.position, on.transform.position);
+        }
+        foreach (GameObject off in offListeners) {
+            if (onListeners.Contains(off))
+                Gizmos.color = new Color(1, 0, 1);
+            else
+                Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(transform.position, off.transform.position);
+        }
     }
 
     void Update() {
@@ -45,7 +63,7 @@ public class PushButton : MonoBehaviour {
 
     public void Press(bool press) {
         pressed = press;
-        if (releaseTime == 0) {
+        if (releaseTime <= 0) {
             currentReleaseTime = releaseTime;
             if (press) {
                 GetComponent<Animator>().Play("ButtonDown");
@@ -62,5 +80,37 @@ public class PushButton : MonoBehaviour {
             }
         }
         
+        // Activate like normally if this button isn't connected to a combinator (logic gate)
+        if (combinator == null) {
+            if (pressed) {
+                foreach (GameObject listener in onListeners) {
+                    // All types of listeners go here to keep things nice n tidy
+                    MovingPlatform mp = listener.GetComponent<MovingPlatform>();
+                    ObjectChute oc = listener.GetComponent<ObjectChute>();
+
+                    if (mp != null) {
+                        mp.activated = true;
+                    }
+                    if (oc != null) {
+                        oc.SpawnObject();
+                    }
+                }
+            } else {
+                foreach (GameObject listener in offListeners) {
+                    // All types of listeners go here to keep things nice n tidy
+                    MovingPlatform mp = listener.GetComponent<MovingPlatform>();
+                    ObjectChute oc = listener.GetComponent<ObjectChute>();
+
+                    if (mp != null) {
+                        mp.activated = false;
+                    }
+                    if (oc != null) {
+                        oc.SpawnObject();
+                    }
+                }
+            }
+        } else {
+            // No need to notify the combinator or anything -- it's always listening. <_<
+        }
     }
 }
