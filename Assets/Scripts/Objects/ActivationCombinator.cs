@@ -84,6 +84,7 @@ public class ActivationCombinator : MonoBehaviour {
                     // All types of listeners go here to keep things nice n tidy
                     MovingPlatform mp = listener.GetComponent<MovingPlatform>();
                     ObjectChute oc = listener.GetComponent<ObjectChute>();
+                    Teleporter tp = listener.GetComponent<Teleporter>();
 
                     if (mp != null) {
                         mp.activated = true;
@@ -91,18 +92,25 @@ public class ActivationCombinator : MonoBehaviour {
                     if (oc != null) {
                         oc.SpawnObject();
                     }
+                    if (tp != null) {
+                        tp.DoTeleport();
+                    }
                 }
             } else {
                 foreach (GameObject listener in offListeners) {
                     // All types of listeners go here to keep things nice n tidy
                     MovingPlatform mp = listener.GetComponent<MovingPlatform>();
                     ObjectChute oc = listener.GetComponent<ObjectChute>();
+                    Teleporter tp = listener.GetComponent<Teleporter>();
 
                     if (mp != null) {
                         mp.activated = false;
                     }
                     if (oc != null) {
                         oc.SpawnObject();
+                    }
+                    if (tp != null) {
+                        tp.DoTeleport();
                     }
                 }
             }

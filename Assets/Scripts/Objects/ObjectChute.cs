@@ -8,6 +8,9 @@ public class ObjectChute : MonoBehaviour {
 
     public GameObject spawnPoint;
 
+    float cooldown = 1f;
+    float currentCooldown;
+
     public void SpawnObject(GameObject objectPrefab, bool applySomeFunRotation = false) {
         GameObject obj = Instantiate(objectPrefab);
         obj.transform.position = spawnPoint.transform.position;
@@ -19,7 +22,16 @@ public class ObjectChute : MonoBehaviour {
         }
     }
 
+    void Update() {
+        if (currentCooldown > 0)
+            currentCooldown -= Time.deltaTime;
+    }
+
     public void SpawnObject(bool applySomeFunRotation = false) {
+        if (currentCooldown > 0)
+            return;
+
         SpawnObject(randomObjectsToSpawn[Random.Range(0,randomObjectsToSpawn.Count-1)], applySomeFunRotation);
+        currentCooldown = cooldown;
     }
 }
