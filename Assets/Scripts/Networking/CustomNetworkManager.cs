@@ -13,10 +13,6 @@ public class CustomNetworkManager : NetworkManager {
     public GameObject p1Prefab, p2Prefab;
     GameObject player1, player2;
     
-    void Start() {
-        //StartMatchMaker();
-    }
-
     public override void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo) {
         base.OnMatchCreate(success, extendedInfo, matchInfo);
         if (success) {
