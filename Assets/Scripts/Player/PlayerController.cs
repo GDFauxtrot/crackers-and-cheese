@@ -8,6 +8,9 @@ public class PlayerController : NetworkBehaviour {
 
     public GameObject grabPoint;
     public GrabbableObject grabbingObject;
+    
+    [SyncVar]
+    public int playerNum;
 
     bool grounded = false;
     bool inLiquid;
@@ -25,33 +28,27 @@ public class PlayerController : NetworkBehaviour {
     GameManager gameManager;
 
     void Start()
-    {
+    {   
 
         grabbablesInRadius = new List<GrabbableObject>();
         rb = GetComponent<Rigidbody>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         //Debug.Log(gameManager.GetPlayerNumber(gameObject));
-        Debug.Log(gameManager.GetPlayerNumber(gameObject));
-        //Can set to whatever we want but allows us to do certain things to the local version of this object
-        if (gameManager.GetPlayerNumber(gameObject) == 0)
-        {
-            GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(86f/255f, 21f/255f, 21f/255f, 1));
-            GetComponent<MeshRenderer>().material.SetColor("_internalColor",new Color(1,0,0,1));
-            gameObject.layer=15;// red collision
+       if(playerNum==1)
+       {
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(86f / 255f, 21f / 255f, 21f / 255f, 1));
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_internalColor", new Color(1, 0, 0, 1));
+            gameObject.layer = 15;// red collision
+
         }
         else{
-            if(!isLocalPlayer)
-            {
-                GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(86f / 255f, 21f / 255f, 21f / 255f, 1));
-                GetComponent<MeshRenderer>().material.SetColor("_internalColor", new Color(1, 0, 0, 1));
-                gameObject.layer = 15; 
-            }
-            else{
-            GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(37f / 255f, 37f / 255f, 188f / 255f, 1));
-            GetComponent<MeshRenderer>().material.SetColor("_internalColor", new Color(0, 0, 1, 1));
-            gameObject.layer = 14; // blue collision
-            }
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(37f / 255f, 37f / 255f, 188f / 255f, 1));
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_internalColor", new Color(0, 0, 1, 1));
+            gameObject.gameObject.layer = 14; // blue collision
+
         }
+        //Can set to whatever we want but allows us to do certain things to the local version of this object
+      
     }
 	
 	// Update is called once per frame
