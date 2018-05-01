@@ -1280,7 +1280,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh13028
+  m_Name: pb_Mesh13110
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
@@ -4560,7 +4560,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 409151811}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7, y: -18, z: -3}
+  m_LocalPosition: {x: 5, y: -18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1645943562}
@@ -25451,17 +25451,17 @@ Prefab:
     - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
         type: 2}
       propertyPath: m_selectedFaces.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
         type: 2}
       propertyPath: m_SelectedEdges.Array.size
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
         type: 2}
       propertyPath: m_selectedTriangles.Array.size
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4149300767831864, guid: 29e09ab6116dcb54983e9f00aa77ff0d, type: 2}
       propertyPath: m_LocalPosition.x
@@ -25544,6 +25544,81 @@ Prefab:
       propertyPath: endPoint.z
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_selectedFaces.Array.data[0]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_SelectedEdges.Array.data[0].x
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_SelectedEdges.Array.data[0].y
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_SelectedEdges.Array.data[1].x
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_SelectedEdges.Array.data[1].y
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_SelectedEdges.Array.data[2].x
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_SelectedEdges.Array.data[2].y
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_SelectedEdges.Array.data[3].x
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_SelectedEdges.Array.data[3].y
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_selectedTriangles.Array.data[0]
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_selectedTriangles.Array.data[1]
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_selectedTriangles.Array.data[2]
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_selectedTriangles.Array.data[3]
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_selectedTriangles.Array.data[4]
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 114982712072599122, guid: 29e09ab6116dcb54983e9f00aa77ff0d,
+        type: 2}
+      propertyPath: m_selectedTriangles.Array.data[5]
+      value: 18
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 29e09ab6116dcb54983e9f00aa77ff0d, type: 2}
   m_IsPrefabParent: 0
@@ -25557,7 +25632,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-629286
+  m_Name: pb_Mesh13354
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
@@ -26318,7 +26393,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-633138
+  m_Name: pb_Mesh12892
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
@@ -26892,7 +26967,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1276366117}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: -18, z: 1}
+  m_LocalPosition: {x: 7, y: -18, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1645943562}
@@ -38307,7 +38382,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1930503615}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12, y: -18, z: -3}
+  m_LocalPosition: {x: 11, y: -18, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1645943562}
