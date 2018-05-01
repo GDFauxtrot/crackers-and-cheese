@@ -74,7 +74,7 @@ Material:
     - _Ymovement: 1
     - _ZWrite: 1
     - _size: 0.14
-    - _speed: 41.1
+    - _speed: 8
     m_Colors:
     - _Color: {r: 0.33823532, g: 0.0820718, b: 0.0820718, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
