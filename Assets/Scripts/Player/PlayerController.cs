@@ -8,6 +8,9 @@ public class PlayerController : NetworkBehaviour {
 
     public GameObject grabPoint;
     public GrabbableObject grabbingObject;
+    
+    [SyncVar]
+    public int playerNum;
 
     bool grounded = false;
     bool inLiquid;
@@ -25,10 +28,27 @@ public class PlayerController : NetworkBehaviour {
     GameManager gameManager;
 
     void Start()
-    {
+    {   
+
         grabbablesInRadius = new List<GrabbableObject>();
         rb = GetComponent<Rigidbody>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //Debug.Log(gameManager.GetPlayerNumber(gameObject));
+       if(playerNum==1)
+       {
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(86f / 255f, 21f / 255f, 21f / 255f, 1));
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_internalColor", new Color(1, 0, 0, 1));
+            gameObject.layer = 15;// red collision
+
+        }
+        else{
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(37f / 255f, 37f / 255f, 188f / 255f, 1));
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_internalColor", new Color(0, 0, 1, 1));
+            gameObject.gameObject.layer = 14; // blue collision
+
+        }
+        //Can set to whatever we want but allows us to do certain things to the local version of this object
+      
     }
 	
 	// Update is called once per frame
@@ -106,8 +126,8 @@ public class PlayerController : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        float hSpeed = Input.GetAxis("Horizontal") * runSpeed;
-        float vSpeed = Input.GetAxis("Vertical") * runSpeed;
+        float hSpeed = Input.GetAxisRaw("Horizontal") ;
+        float vSpeed = Input.GetAxisRaw("Vertical") ;
 
         // Rotate to input angle (better than taking current velocity angle imo)
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) {
@@ -121,13 +141,15 @@ public class PlayerController : NetworkBehaviour {
             hSpeed /= 2;
             vSpeed /= 2;
         }
-
-        rb.velocity = new Vector3(hSpeed, rb.velocity.y, vSpeed);
+        Vector2 norm= new Vector2(hSpeed,vSpeed).normalized*runSpeed;
+        rb.velocity = new Vector3(norm.x, rb.velocity.y, norm.y);
     }
 
     public override void OnStartLocalPlayer() {
-        //Can set to whatever we want but allows us to do certain things to the local version of this object
-        GetComponent<MeshRenderer>().material.color = Color.blue;
+       // Debug.Log(gameManager.name);
+
+        
+
     }
 
     bool TagIsGrounded(string tag) {

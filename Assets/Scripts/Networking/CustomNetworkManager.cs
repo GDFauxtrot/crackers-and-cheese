@@ -37,15 +37,21 @@ public class CustomNetworkManager : NetworkManager {
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId) {
         if (player1 == null) {
             player1 = Instantiate(playerPrefab, p1Start.transform.position, p1Start.transform.rotation);
-            NetworkServer.AddPlayerForConnection(conn, player1, playerControllerId); 
+            NetworkServer.AddPlayerForConnection(conn, player1, playerControllerId);
+            player1.GetComponent<PlayerController>().playerNum = 1;
+
         } else if (player2 == null) {
             player2 = Instantiate(playerPrefab, p2Start.transform.position, p2Start.transform.rotation);
-            NetworkServer.AddPlayerForConnection(conn, player2, playerControllerId); 
+            NetworkServer.AddPlayerForConnection(conn, player2, playerControllerId);
+            player2.GetComponent<PlayerController>().playerNum = 2;
+
         } else {
             Debug.LogError("Too many players!! WTF?");
         }
         
         if (player1 != null && player2 != null) {
+            Debug.Log("nani");
+
             gameManager.BeginGame(player1, player2);
         }
     }
