@@ -126,8 +126,8 @@ public class PlayerController : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        float hSpeed = Input.GetAxis("Horizontal") * runSpeed;
-        float vSpeed = Input.GetAxis("Vertical") * runSpeed;
+        float hSpeed = Input.GetAxisRaw("Horizontal") ;
+        float vSpeed = Input.GetAxisRaw("Vertical") ;
 
         // Rotate to input angle (better than taking current velocity angle imo)
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) {
@@ -141,8 +141,8 @@ public class PlayerController : NetworkBehaviour {
             hSpeed /= 2;
             vSpeed /= 2;
         }
-
-        rb.velocity = new Vector3(hSpeed, rb.velocity.y, vSpeed);
+        Vector2 norm= new Vector2(hSpeed,vSpeed).normalized*runSpeed;
+        rb.velocity = new Vector3(norm.x, rb.velocity.y, norm.y);
     }
 
     public override void OnStartLocalPlayer() {
