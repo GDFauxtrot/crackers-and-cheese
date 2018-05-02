@@ -50,8 +50,6 @@ public class CustomNetworkManager : NetworkManager {
         }
         
         if (player1 != null && player2 != null) {
-            Debug.Log("nani");
-
             gameManager.BeginGame(player1, player2);
         }
     }

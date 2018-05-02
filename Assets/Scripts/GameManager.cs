@@ -81,10 +81,7 @@ public class GameManager : NetworkBehaviour {
         player1 = p1;
         player2 = p2;
         gameIsRunning = true;
-        
 
-      
-        
         foreach (MovingPlatform platform in FindObjectsOfType<MovingPlatform>()) {
             movingPlatformTimers.Add(new PlatformTime(platform.gameObject, 0));
         }
