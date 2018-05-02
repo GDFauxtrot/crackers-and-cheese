@@ -7,7 +7,9 @@ using System.Linq;
 public class PlayerController : NetworkBehaviour {
 
     public GameObject grabPoint;
-    public GrabbableObject grabbingObject;
+
+    [SyncVar]
+    public GameObject grabbingObject;
     
     [SyncVar]
     public int playerNum;
@@ -19,7 +21,7 @@ public class PlayerController : NetworkBehaviour {
 
     public float runSpeed, jumpStrength, jumpLetGoVelocity;
     public float grabThrowStrength, grabThrowPlayerVelocityMultiplier;
-    List<GrabbableObject> grabbablesInRadius;
+    List<GameObject> grabbablesInRadius;
 
     public bool obeyCameraRange;
 
@@ -30,7 +32,7 @@ public class PlayerController : NetworkBehaviour {
     void Start()
     {   
 
-        grabbablesInRadius = new List<GrabbableObject>();
+        grabbablesInRadius = new List<GameObject>();
         rb = GetComponent<Rigidbody>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         //Debug.Log(gameManager.GetPlayerNumber(gameObject));
@@ -51,6 +53,39 @@ public class PlayerController : NetworkBehaviour {
       
     }
 	
+    [Command]
+    void CmdGrabObject(GameObject go, bool grab) {
+        if (grab) {
+            go.transform.SetParent(grabPoint.transform);
+            go.transform.localPosition = Vector3.zero;
+            go.GetComponent<GrabbableObject>().SetGrabbed(true);
+        } else {
+            go.transform.SetParent(null);
+            go.GetComponent<GrabbableObject>().SetGrabbed(false);
+
+            // Add force to the grabbable + current force from the player (yay math) * multiplier
+            float playerForce = go.GetComponent<Rigidbody>().mass * (rb.velocity.magnitude / Time.fixedDeltaTime);
+            go.GetComponent<Rigidbody>().AddForce(transform.forward * (playerForce + grabThrowStrength*grabThrowPlayerVelocityMultiplier));
+        }
+        RpcGrabObject(gameObject, go, grab);
+    }
+
+    [ClientRpc]
+    void RpcGrabObject(GameObject owner, GameObject go, bool grab) {
+        if (grab) {
+            go.transform.SetParent(owner.GetComponent<PlayerController>().grabPoint.transform);
+            go.transform.localPosition = Vector3.zero;
+            go.GetComponent<Rigidbody>().isKinematic = true;
+            go.GetComponent<NetworkTransform>().transformSyncMode = NetworkTransform.TransformSyncMode.SyncNone;
+            go.layer = LayerMask.NameToLayer("GrabbedObject");
+        } else {
+            go.transform.SetParent(null);
+            go.GetComponent<Rigidbody>().isKinematic = false;
+            go.GetComponent<NetworkTransform>().transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
+            go.layer = go.GetComponent<GrabbableObject>().assignedLayer;
+        }
+    }
+
 	// Update is called once per frame
 	void Update () {
         if (!isLocalPlayer)
@@ -76,16 +111,24 @@ public class PlayerController : NetworkBehaviour {
                         // Closest object is at index 0
                         grabbingObject = grabbablesInRadius[0];
                     }
-                    grabbingObject.gameObject.transform.SetParent(grabPoint.transform);
-                    grabbingObject.gameObject.transform.localPosition = Vector3.zero;
-                    grabbingObject.SetGrabbed(true);
+                    
+                    grabbingObject.transform.SetParent(grabPoint.transform);
+                    grabbingObject.transform.localPosition = Vector3.zero;
+                    //grabbingObject.GetComponent<GrabbableObject>().SetGrabbed(true);
+                    grabbingObject.GetComponent<Rigidbody>().isKinematic = true;
+                    
+                    grabbingObject.layer = LayerMask.NameToLayer("GrabbedObject");
+
+                    // Send grab to server (and all clients)
+                    CmdGrabObject(grabbingObject, true);
                 }
             } else {
-                grabbingObject.gameObject.transform.SetParent(null);
-                grabbingObject.SetGrabbed(false);
-                // Add force to the grabbable + current force from the player (yay math) * multiplier
-                float playerForce = grabbingObject.GetComponent<Rigidbody>().mass * (rb.velocity.magnitude / Time.fixedDeltaTime);
-                grabbingObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * (playerForce + grabThrowStrength*grabThrowPlayerVelocityMultiplier));
+                grabbingObject.transform.SetParent(null);
+                //grabbingObject.GetComponent<GrabbableObject>().SetGrabbed(false);
+                grabbingObject.GetComponent<Rigidbody>().isKinematic = false;
+                grabbingObject.layer = grabbingObject.GetComponent<GrabbableObject>().assignedLayer;
+
+                CmdGrabObject(grabbingObject, false);
                 grabbingObject = null;
             }
         }
@@ -177,8 +220,8 @@ public class PlayerController : NetworkBehaviour {
             inLiquid = true;
         }
 
-        if (c.gameObject.tag == "Grabbable") {
-            grabbablesInRadius.Add(c.gameObject.GetComponent<GrabbableObject>());
+        if (c.gameObject.tag == "Grabbable" && c.gameObject.GetComponent<GrabbableObject>() != null) {
+            grabbablesInRadius.Add(c.gameObject);
         }
     }
 
@@ -187,8 +230,8 @@ public class PlayerController : NetworkBehaviour {
             inLiquid = false;
         }
 
-        if (c.gameObject.tag == "Grabbable") {
-            grabbablesInRadius.Remove(c.gameObject.GetComponent<GrabbableObject>());
+        if (c.gameObject.tag == "Grabbable" && c.gameObject.GetComponent<GrabbableObject>() != null) {
+            grabbablesInRadius.Remove(c.gameObject);
         }
     }
 }
