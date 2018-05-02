@@ -12,9 +12,9 @@ public class ObjectChute : NetworkBehaviour {
     float cooldown = 1f;
     float currentCooldown;
 
-    public void SpawnObject(GameObject objectPrefab, bool applySomeFunRotation = false) {
+    [Command]
+    public void CmdSpawnObject(GameObject objectPrefab, bool applySomeFunRotation) {
         GameObject obj = Instantiate(objectPrefab);
-        NetworkServer.Spawn(obj);
         obj.transform.position = spawnPoint.transform.position;
 
         if (applySomeFunRotation) {
@@ -22,6 +22,7 @@ public class ObjectChute : NetworkBehaviour {
                 obj.GetComponent<Rigidbody>().AddTorque(new Vector3(Random.Range(-100,100),Random.Range(-100,100),Random.Range(-100,100)));
             }
         }
+        NetworkServer.Spawn(obj);
     }
 
     void Update() {
@@ -33,7 +34,14 @@ public class ObjectChute : NetworkBehaviour {
         if (currentCooldown > 0)
             return;
 
-        SpawnObject(randomObjectsToSpawn[Random.Range(0,randomObjectsToSpawn.Count-1)], applySomeFunRotation);
+        CmdSpawnObject(randomObjectsToSpawn[Random.Range(0,randomObjectsToSpawn.Count-1)], applySomeFunRotation);
         currentCooldown = cooldown;
+
+        //CmdSpawnObject(randomObjectsToSpawn[Random.Range(0,randomObjectsToSpawn.Count-1)], applySomeFunRotation);
     }
+
+    //[Command]
+    //void CmdSpawnObject(GameObject objectPrefab, bool applySomeFunRotation = false) {
+
+    //}
 }

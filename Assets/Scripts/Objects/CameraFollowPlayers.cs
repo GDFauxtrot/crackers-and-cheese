@@ -10,8 +10,10 @@ public class CameraFollowPlayers : MonoBehaviour {
     public float closeMinZ;
     public float farAngle;
     public float farMinZ;
-    public float backZ;
+    public float forwardZ, backwardZ;
     public float minZ, maxZ;
+
+    public float levelMinZ, levelMaxZ;
 
 	void Start () {
 		
@@ -38,9 +40,24 @@ public class CameraFollowPlayers : MonoBehaviour {
             minZ = Mathf.Lerp(farMinZ, closeMinZ, percent);
             //maxZ = Mathf.Lerp(farMaxZ, closeMaxZ, percent);
 
-            if (p1.transform.position.z > transform.position.z + backZ && p2.transform.position.z > transform.position.z + backZ) {
-                transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Min(p1.transform.position.z, p2.transform.position.z) - backZ);
-            } 
+            if (p1.transform.position.z > transform.position.z + forwardZ && p2.transform.position.z > transform.position.z + forwardZ) {
+                float min = Mathf.Min(p1.transform.position.z, p2.transform.position.z);
+                //transform.position = new Vector3(transform.position.x, transform.position.y, min - forwardZ);
+                transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Lerp(transform.position.z, min - forwardZ, 0.25f));
+            }
+            if (p1.transform.position.z < transform.position.z + backwardZ || p2.transform.position.z < transform.position.z + backwardZ) {
+                if (p1.transform.position.z < p2.transform.position.z) {
+                    if (p2.transform.position.z < transform.position.z + maxZ) {
+                        transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Lerp(transform.position.z, p1.transform.position.z - backwardZ, 0.25f));
+                    }
+                } else {
+                    if (p1.transform.position.z < transform.position.z + maxZ) {
+                        transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Lerp(transform.position.z, p2.transform.position.z - backwardZ, 0.25f));
+                    }
+                }
+            }
         }
+
+        transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Clamp(transform.position.z, levelMinZ, levelMaxZ));
     }
 }
