@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 64626858018715460}
   - component: {fileID: 54853338368905474}
   - component: {fileID: 114927767922874892}
+  - component: {fileID: 114408299327917728}
   m_Layer: 0
   m_Name: TeleportPlatform
   m_TagString: Untagged
@@ -224,6 +225,38 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1.000036}
   m_Center: {x: 0, y: -3.4639463e-15, z: 0.7562462}
+--- !u!114 &114408299327917728
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1288827696478452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 254
+    i1: 200
+    i2: 227
+    i3: 112
+    i4: 127
+    i5: 77
+    i6: 173
+    i7: 148
+    i8: 235
+    i9: 30
+    i10: 223
+    i11: 40
+    i12: 195
+    i13: 155
+    i14: 95
+    i15: 151
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114927767922874892
 MonoBehaviour:
   m_ObjectHideFlags: 1

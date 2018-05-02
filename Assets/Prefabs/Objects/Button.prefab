@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 54148469009793804}
   - component: {fileID: 95367742635869980}
   - component: {fileID: 114440995211760912}
+  - component: {fileID: 114721664978618876}
   m_Layer: 0
   m_Name: Button
   m_TagString: Button
@@ -515,6 +516,38 @@ MonoBehaviour:
   onListeners: []
   offListeners: []
   combinator: {fileID: 0}
+--- !u!114 &114721664978618876
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1666918584011178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 195
+    i1: 100
+    i2: 199
+    i3: 57
+    i4: 118
+    i5: 202
+    i6: 130
+    i7: 164
+    i8: 217
+    i9: 191
+    i10: 5
+    i11: 18
+    i12: 123
+    i13: 253
+    i14: 221
+    i15: 195
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212778420106651690
 SpriteRenderer:
   m_ObjectHideFlags: 1

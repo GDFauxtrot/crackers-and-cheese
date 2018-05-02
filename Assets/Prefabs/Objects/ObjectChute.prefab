@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 4332699409941588}
   - component: {fileID: 95900191601477046}
   - component: {fileID: 114931355768427314}
+  - component: {fileID: 114480687648550110}
   m_Layer: 0
   m_Name: ObjectChute
   m_TagString: Untagged
@@ -564,6 +565,38 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114480687648550110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1879493495902638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 99
+    i1: 35
+    i2: 170
+    i3: 240
+    i4: 130
+    i5: 24
+    i6: 234
+    i7: 116
+    i8: 234
+    i9: 193
+    i10: 238
+    i11: 63
+    i12: 218
+    i13: 19
+    i14: 204
+    i15: 111
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114931355768427314
 MonoBehaviour:
   m_ObjectHideFlags: 1

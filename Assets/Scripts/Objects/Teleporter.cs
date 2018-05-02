@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Teleporter : MonoBehaviour {
+public class Teleporter : NetworkBehaviour {
 
     public ParticleSystem particles;
     public Teleporter otherTeleporter;

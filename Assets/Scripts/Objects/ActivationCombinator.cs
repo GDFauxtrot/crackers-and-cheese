@@ -90,7 +90,7 @@ public class ActivationCombinator : MonoBehaviour {
                         mp.activated = true;
                     }
                     if (oc != null) {
-                        oc.SpawnObject();
+                        oc.SpawnObject(true);
                     }
                     if (tp != null) {
                         tp.DoTeleport();
@@ -107,7 +107,7 @@ public class ActivationCombinator : MonoBehaviour {
                         mp.activated = false;
                     }
                     if (oc != null) {
-                        oc.SpawnObject();
+                        oc.SpawnObject(true);
                     }
                     if (tp != null) {
                         tp.DoTeleport();

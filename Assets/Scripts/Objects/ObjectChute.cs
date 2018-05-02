@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class ObjectChute : MonoBehaviour {
+public class ObjectChute : NetworkBehaviour {
 
     public List<GameObject> randomObjectsToSpawn;
 
@@ -13,6 +14,7 @@ public class ObjectChute : MonoBehaviour {
 
     public void SpawnObject(GameObject objectPrefab, bool applySomeFunRotation = false) {
         GameObject obj = Instantiate(objectPrefab);
+        NetworkServer.Spawn(obj);
         obj.transform.position = spawnPoint.transform.position;
 
         if (applySomeFunRotation) {

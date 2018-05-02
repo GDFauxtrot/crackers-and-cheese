@@ -1,15 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PushButton : MonoBehaviour {
+public class PushButton : NetworkBehaviour {
 
     public GameObject buttonBase, buttonTop;
     public SpriteMask timerMask;
     public GameObject timerSprite;
 
     public float releaseTime;
+
+    [SyncVar]
     public bool pressed;
+    bool beenPressed;
+
     bool timerPressed;
 
     float currentReleaseTime;
@@ -63,22 +68,31 @@ public class PushButton : MonoBehaviour {
         timerMask.gameObject.transform.LookAt(Camera.main.transform);
         timerMask.gameObject.transform.Rotate(new Vector3(0, 180, 0));
         timerSprite.transform.LookAt(Camera.main.transform);
+
+        if (pressed != beenPressed) {
+            beenPressed = pressed;
+
+            if (pressed)
+                GetComponent<Animator>().Play("ButtonDown");
+            else
+                GetComponent<Animator>().Play("ButtonUp");
+        }
     }
 
     public void Press(bool press) {
         pressed = press;
         if (releaseTime <= 0) {
             currentReleaseTime = releaseTime;
-            if (press) {
-                GetComponent<Animator>().Play("ButtonDown");
-            } else {
-                GetComponent<Animator>().Play("ButtonUp");
-            }
+            //if (press) {
+            //    GetComponent<Animator>().Play("ButtonDown");
+            //} else {
+            //    GetComponent<Animator>().Play("ButtonUp");
+            //}
         } else {
             if (press == true) {
-                if (!timerPressed) {
-                    GetComponent<Animator>().Play("ButtonDown");
-                }
+                //if (!timerPressed) {
+                //    GetComponent<Animator>().Play("ButtonDown");
+                //}
                 timerPressed = true;
                 currentReleaseTime = releaseTime;
             }
@@ -97,7 +111,7 @@ public class PushButton : MonoBehaviour {
                         mp.activated = true;
                     }
                     if (oc != null) {
-                        oc.SpawnObject();
+                        oc.SpawnObject(true);
                     }
                     if (tp != null) {
                         tp.DoTeleport();
@@ -114,7 +128,7 @@ public class PushButton : MonoBehaviour {
                         mp.activated = false;
                     }
                     if (oc != null) {
-                        oc.SpawnObject();
+                        oc.SpawnObject(true);
                     }
                     if (tp != null) {
                         tp.DoTeleport();
