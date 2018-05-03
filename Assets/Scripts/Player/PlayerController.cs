@@ -29,8 +29,13 @@ public class PlayerController : NetworkBehaviour {
 
     GameManager gameManager;
 
+    List<Collision> currentCollisions;
+
+    float lastNormalAngle;
+
     void Start()
     {   
+        currentCollisions = new List<Collision>();
 
         grabbablesInRadius = new List<GameObject>();
         rb = GetComponent<Rigidbody>();
@@ -188,15 +193,12 @@ public class PlayerController : NetworkBehaviour {
         rb.velocity = new Vector3(norm.x, rb.velocity.y, norm.y);
     }
 
-    public override void OnStartLocalPlayer() {
-       // Debug.Log(gameManager.name);
-
-        
-
-    }
-
     bool TagIsGrounded(string tag) {
         return tag == "Ground" || tag == "Button" || tag == "Platform" || tag == "Grabbable";
+    }
+
+    void OnCollisionEnter(Collision c) {
+        currentCollisions.Add(c);
     }
 
     void OnCollisionStay(Collision c) {
@@ -205,6 +207,19 @@ public class PlayerController : NetworkBehaviour {
 
         if (c.gameObject.tag == "Platform")
             transform.parent = c.transform;
+
+        float maxAngle = Mathf.Infinity;
+
+        // c.contacts in stay is unreliable for unknown reasons, so must keep track with enter/exit
+        foreach(Collision col in currentCollisions) {
+            if (Vector3.Angle(-Vector3.up, -col.contacts[0].normal) < maxAngle)
+                maxAngle = Vector3.Angle(-Vector3.up, -col.contacts[0].normal);
+        }
+
+        lastNormalAngle = maxAngle;
+
+        if (lastNormalAngle > 89)
+            grounded = false; // Because grounded is only being used for jumping
     }
 
     void OnCollisionExit(Collision c) {
@@ -213,6 +228,17 @@ public class PlayerController : NetworkBehaviour {
 
         if (c.gameObject.tag == "Platform")
             transform.parent = null;
+
+        if (currentCollisions.Count == 0) {
+            lastNormalAngle = 0;
+        } else {
+            List<Collision> temp = currentCollisions.ToList();
+            foreach (Collision col in temp) {
+                if (col.gameObject == c.gameObject) {
+                    currentCollisions.Remove(col);
+                }
+            }
+        }
     }
 
     void OnTriggerEnter(Collider c) {
